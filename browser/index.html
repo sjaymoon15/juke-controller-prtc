@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Juke</title>
+  <link href="/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+  <link href="/bootstrap-dark.css" rel="stylesheet" />
+  <link href="/style.css" rel="stylesheet" />
+  <script src="/angular/angular.js" defer></script>
+  <script src="/js/module.js" defer></script>
+</head>
+<body ng-app="juke" ng-controller = "AlbumCtrl" >
+
+  <div id="main" class="container-fluid">
+
+    <div class="col-xs-2">
+      <sidebar>
+        <img src="juke.svg" class="logo">
+        <section>
+          <h4 class="menu-item active">
+            <a href="#">ALBUMS</a>
+          </h4>
+        </section>
+      </sidebar>
+    </div>
+
+    <div class="col-xs-10">
+      <div class="album">
+        <p>
+        <h3>{{album.name}}</h3>
+          <img src={{album.imageUrl}} class="img-thumbnail">
+        </p>
+        <table class='table'>
+          <thead>
+            <tr>
+              <th></th>
+              <th>Name</th>
+              <th>Artists</th>
+              <th>Genres</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-class="{active: currentSong === song}" ng-repeat = "song in songs">
+              <td>
+                <button ng-hide="currentSong === song" class="btn btn-default btn-xs">
+                  <span ng-click = "start(song)" class="glyphicon glyphicon-play"></span>
+                </button>
+              </td>
+              <td>{{song.name}}</td>
+              <td><span ng-repeat="artist in song.artists">{{ artist.name }}{{ $last ? '' : ', ' }}</span></td>
+              <td>{{song.genres.join(", ")}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+
+    <footer>
+      <div ng-show = "playing">
+        <div class="pull-left">
+          <button class="btn btn-default" ng-click="prev()">
+            <span class="glyphicon glyphicon-step-backward"></span>
+          </button>
+          <button class="btn btn-default" ng-click="toggle()">
+            <span ng-class="paused? 'glyphicon glyphicon-play': 'glyphicon glyphicon-pause'"></span>
+          </button>
+          <button class="btn btn-default" ng-click="next()">
+            <span class="glyphicon glyphicon-step-forward"></span>
+          </button>
+        </div>
+        <div class="bar">
+            <div class="progress">
+              <div class="progress-bar"></div>
+            </div>
+          </div>
+      </div>
+    </footer>
+
+  </div>
+</body>
+</html>
